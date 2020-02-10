@@ -1,0 +1,19 @@
+import UIKit
+
+/*Homework # 2
+Tuples vs. Arrays
+ 
+ 
+ A tuple is a grouping of multiple values, which can be of any type.  Tuples do not require the values stored within to be of the same type.  Touples can mix multiple values, like say a string and and integer within the same grouping.
+ You would use a tuple over an array, when you need the ability to store and mix multiple values.  In an example of video game scores, you could store both the player name and their score in a single grouping.*/
+
+var highScore1 : (String, Int) = ("Mario", 200)
+var highScore2 : (String, Int) = ("Link", 300)
+print("\(highScore1.0)'s score is \(highScore1.1), \(highScore2.0)'s score is \(highScore2.1).")
+
+/*
+ An array is a collection of values.  These values can be of any type, however arrays require the the values stored within to be of the same type.  For example, an array of intergers can only store integers and would not accept another value, like a string to be added.  With an array being a collection, they can hold multiple instances which is an advantage to the tuple example above.  With the above example, highScore1 only holds one players name and score.  With an array, you can hold a collection of tuples to be able to pull out later.
+ */
+var highScoreArray = [highScore1, highScore2]
+print(highScoreArray[0], highScoreArray[1])
+ 
