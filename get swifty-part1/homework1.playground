@@ -1,0 +1,32 @@
+import UIKit
+
+/* Homework # 1
+What's your favorite song?
+ This playground includes meta-data of a song
+ */
+
+//Artist name
+let artistName : String = "Simon & Garfunkel"
+print(artistName)
+//Song Title
+let title : String = "The Sound of Silence"
+print(title)
+//Album name
+let albumName : String = "Wednesday Morning, 3 A.M."
+print(albumName)
+//Year released
+let yearReleased : Int = 1965
+print(yearReleased)
+//Genre
+let genre : String = "Folk Rock"
+print(genre)
+//Duration Minutes
+let durationMinutes : Int = 3
+print(durationMinutes)
+//Duration Seconds
+let durationSeconds : Int = 5
+print(durationSeconds)
+
+//Printing a sentence with the above meta-data
+print("My song is \"\(title)\" by \(artistName), from the album \(albumName).  It is a \(genre.lowercased()) song released in \(yearReleased).  It is \(durationMinutes) minutes \(durationSeconds) seconds in length.")
+
