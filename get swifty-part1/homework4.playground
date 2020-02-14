@@ -1,0 +1,194 @@
+import UIKit
+
+/*
+ Details:
+  
+
+ Create a function called "timeAdder" that can add two time values together. For example, it should be able to add 25 hours and 3 days together.
+
+ The function should accept 4 parameters:
+
+ value1, label1, value2, label2
+
+ - value1 and value2 should accept positive integers
+
+ - label1 and label2 should accept any of the following strings: "seconds", "minutes", "hours", "days", "second", "minute", "hour", "day"
+
+ For example your function may be called in any of the following ways:
+
+ timeAdder(1,"minute",3,"minutes")
+
+ timeAdder(5,"days",25,"hours")
+
+ timeAdder(1,"minute",240,"seconds")
+ 
+ 
+ Requirements:
+
+ 1. Your function should include at least one switch
+
+ 2. Your function must accept any possible combination of inputs
+
+ 3. If the inputs are valid, it should return a tuple with 2 variables inside of it: value3, and  label3. For example:
+
+ return (5,"minutes"). The exact label you choose to return for label3 ("minutes" for example) is up to you.
+
+ 4. If the inputs are invalid or impossible, it should return false. Here are examples of impossible and invalid inputs:
+
+ timeAdder(5,"hour",5,"minutes") // This is impossible because "hour" is singular and 5 is plural
+
+ timeAdder(false,false,5,"minutes") // This is invalid because the first 2 arguments are not the correct types
+
+ timeAdder({},"days",5,"minutes") // This is invalid because the first argument is the wrong type
+
+ Extra Credit:
+
+ Rather than returning an arbitrary label for label3, return the largest label that can be used with an integer value
+
+ For example if someone calls:
+
+ timeAdder(20,"hours",4,"hours")
+
+ You could return: (1,"day") rather than (24,"hours")
+
+ But if they called
+
+ timeAdder(20,"hours",5,"hours")
+
+ You would return (25,"hours") because you could not use "days" with an integer value to represent 25 hours.
+*/
+
+
+let secondsInMinute:UInt = 60
+let secondsInHour:UInt = secondsInMinute * 60
+let secondsInDay:UInt = secondsInHour * 24
+
+
+//In order to work with any valid label type, we will need to convert to the smallest possible label: seconds.  This helper function will take the value given, and convert it into seeconds
+func convertToSeconds(value:UInt,label: String) -> UInt?{
+    switch label {
+    case "minute", "minutes":
+        return value * secondsInMinute
+    case "hour", "hours":
+        return value * secondsInHour
+    case "day", "days":
+        return value * secondsInDay
+    case "second", "seconds":
+        return value
+    default:
+        print("One of your inputs is invalid")
+        return nil
+    }
+    
+}
+
+//If the value is singular, the label must also be singular.  This helper function will check to make sure the value given can be used with the label given
+func labelValidation(value:UInt,label:String) -> Bool {
+    switch label {
+    case "second", "minute", "hour", "day":
+        if value == 1 {
+            return true
+        } else {
+            return false
+        }
+    case "seconds", "minutes", "hours", "days":
+        if value == 1 {
+            return false
+        } else {
+            return true
+        }
+    default:
+        print("One of your inputs is invalid")
+        return false
+    }
+    
+    
+}
+
+//We need to return the correct label of the largest whole number label.  This helper function will take a seconds input from the combined total time and output a whole number with the largest label value that corresponds.
+func convertFromSeconds(seconds: UInt) -> (UInt, String)? {
+    
+    if seconds % secondsInDay == 0 {
+        let days = seconds / secondsInDay
+        if days == 1 {
+            return (days, "day")
+        } else if days > 1 {
+            return (days, "days")
+        }
+    } else if seconds % secondsInHour == 0 {
+        let hours = seconds / secondsInHour
+        if hours == 1 {
+            return (hours, "hour")
+        } else if hours > 1 {
+            return  (hours, "hours")
+        }
+    } else if seconds % secondsInMinute == 0 {
+        let minutes = seconds / secondsInMinute
+        if minutes == 1 {
+            return (minutes, "minute")
+            
+        } else if minutes > 1 {
+            return (minutes, "minutes")
+        }
+        
+    } else {
+        if seconds == 1 {
+            return (seconds, "second")
+            
+        } else if seconds > 1 {
+            return (seconds, "seconds")
+        }
+    }
+    return nil
+    
+}
+    
+
+//This function will can add two time values together.  It will will output a single value and label.  If either input is invalid, it will print out an error.
+func timeAdder(_ value1: UInt,_ label1: String,_ value2: UInt,_ label2: String ) {
+    let timeOne = convertToSeconds(value: value1, label: label1)
+    let timeTwo = convertToSeconds(value: value2, label: label2)
+    let labelValidated1 = labelValidation(value: value1, label: label1)
+    let labelValidated2 = labelValidation(value: value2, label: label2)
+    if labelValidated1 != false && labelValidated2 != false {
+    var summedTimes : UInt = 1
+    if (timeOne != nil) && (timeTwo != nil)  {
+         summedTimes = timeOne! + timeTwo!
+        
+    }
+    if summedTimes > 0 {
+    let finalTime = convertFromSeconds(seconds: summedTimes)!
+    
+    print("\(finalTime)")
+    } else {
+        print("That is an invalid time")
+    
+    
+    
+    
+        }
+    } else {
+        print ("One of your inputs is invalid.")
+    }
+    
+}
+
+// MARK: TESTS Valid
+print("Valid Tests-")
+timeAdder(20, "hours", 4, "hours")
+timeAdder(20, "hours", 5, "hours")
+timeAdder(2, "days", 3, "days")
+timeAdder(1, "minute", 60, "seconds")
+timeAdder(23, "hours", 60, "minutes")
+timeAdder(10, "seconds", 2, "minutes")
+timeAdder(2, "days", 10, "seconds")
+
+// MARK: TESTS Invalid
+print("Invalid Tests - Tests Should Print \"One of your inputs is invalid.\" -")
+timeAdder(22, "seconds", 2, "minute")
+timeAdder(2, "day", 3, "days")
+timeAdder(1, "minutes", 60, "seconds")
+timeAdder(0, "hours", 60, "minute")
+timeAdder(2, "day", 10, "people")
+
+
